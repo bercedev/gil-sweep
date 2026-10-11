@@ -26,6 +26,8 @@ Gil Sweep answers one question: **what should I farm for gil right now?** v1 (El
 - **2026-10-06** — Perception is entered per gatherer; one Craftsmanship and Control covers every crafter, since crafters share armor and only the tools differ. A blank stat isn't checked, so level-only behavior and v1 parity stay.
 - **2026-10-08** — Audited against Dalamud plugins and out-of-game tools (Teamcraft, Universalis, Saddlebag Exchange, Garland Bell). Every shipped feature stays: Gil Sweep is the option without client mods, with alerts outside the game and a gatherer score built on days of stock, node windows and gating. Undercut alerts overlap Saddlebag Exchange and Allagan Market the most, so they get no further work. Ideas another tool already covers are Not planned.
 - **2026-10-08** — Reuse before building: the wider catalog's nodes and spawn windows come from Teamcraft's open data (MIT); any crafting solver comes from Raphael.Net or Craftimizer's solver (both MIT). The Universalis client stays our own: the official `Universalis.Client` targets .NET 8 with Newtonsoft.Json and would replace tested, source-generated code for nothing.
+- **2026-10-11** — The next release, v2.0.1, is accessibility and UI polish only: keyboard, Narrator, contrast and fidelity to the approved mockup. No new features; Gear stats follows it.
+- **2026-10-11** — Craft separates solo recipes from Free Company workshop projects. Not everyone is in an FC with a workshop, so a workshop project only counts when Settings says you have access; otherwise it shows locked.
 
 ## v2.0 — Native rewrite
 
@@ -49,6 +51,19 @@ Gil Sweep answers one question: **what should I farm for gil right now?** v1 (El
 - [ ] **Release** — merge `rewrite/dotnet-avalonia` into `main`, tag `v2.0.0`, publish the draft release.
   Done when: Setup from the release installs, finds a later test release and updates in place.
 
+## v2.0.1 — Accessibility and polish
+
+- [ ] **Keyboard** — every screen and first run work without a mouse: a visible focus ring on every control, a tab order that follows the layout, Escape closes dialogs and the Farm Session, and nothing traps focus.
+  Done when: each of the six screens and first run can be completed with the keyboard alone.
+- [ ] **Narrator** — every control and row has a name Narrator reads in full, with units and signed changes ("Dense Aluminum Ore, 12,400 gil, up 8%"); screens and cards have headings; sweep progress and alerts are announced.
+  Done when: a Narrator pass on each screen finds no unnamed control and no number read without its unit.
+- [ ] **Contrast and scaling** — text meets WCAG AA (4.5:1, 3:1 for large text, icons and focus rings) on every surface it sits on, and layouts hold from 100% to 200% display scaling.
+  Done when: a test checks every text and background token pair, and the screenshots at 200% show no clipped or overlapping text.
+- [ ] **Polish** — every screen checked against the approved mockup and drift fixed: spacing, alignment, truncation, empty, loading and error states. No redesign.
+  Done when: the screenshots match the mockup, including a worst-case set (longest item name, nine-digit prices, no results).
+- [ ] **Release** — tag `v2.0.1` and publish. It doubles as the later test release v2.0's Release item waits on.
+  Done when: v2.0.0 installed from Setup updates itself to v2.0.1.
+
 ## v2.1 — Gear stats
 
 - [ ] **Requirement data** — `items.json` gains each item's minimum Perception and `crafts.json` each recipe's minimum Craftsmanship and Control, from XIVAPI; a script in `scripts/` regenerates them after a patch. Items added in Settings get their Perception the same way. 77 bundled recipes don't match XIVAPI by result item and need their recipe rows found.
@@ -61,8 +76,8 @@ Gil Sweep answers one question: **what should I farm for gil right now?** v1 (El
   Done when: the copied text names the data folder as `%AppData%\GilSweep` and contains no username or other private path.
 - [ ] **Code signing** — the release workflow signs `GilSweep.exe` and Setup through SignPath Foundation (free for open source).
   Done when: both files carry a valid signature and SmartScreen no longer shows "Unknown publisher".
-- [ ] **Release** — tag `v2.1.0` and publish. It doubles as the later test release v2.0's Release item waits on.
-  Done when: v2.0.0 installed from Setup updates itself to v2.1.0.
+- [ ] **Release** — tag `v2.1.0` and publish.
+  Done when: v2.0.1 installed from Setup updates itself to v2.1.0.
 
 ## v2.2 — Better answers
 
@@ -72,6 +87,8 @@ Gil Sweep answers one question: **what should I farm for gil right now?** v1 (El
   Done when: a hidden item leaves Sweep and the Farm Session, and returns when restored.
 - [ ] **Prices after tax** — sale proceeds and craft margins subtract the market tax of the retainers' city (Universalis tax rates). The rates arrive undated from players' uploads, so Market names the city and rate used. Listed under "Changes from v1".
   Done when: margins on recorded data are net of the recorded tax rate, and the scoring doc's worked example matches.
+- [ ] **Workshop crafts** — Craft lists Free Company workshop projects (submersible and airship parts, other company crafts) apart from solo recipes, from XIVAPI's `CompanyCraftSequence` sheet, regenerated by the same script. A Settings switch, off by default, says you have workshop access; without it they show locked ("Needs an FC workshop"), never as the best recipe.
+  Done when: on recorded data, a material whose best use is a workshop project shows it locked with the switch off and as its best recipe with it on, and with the switch off Craft matches today.
 
 ## Later
 
@@ -81,7 +98,6 @@ Gil Sweep answers one question: **what should I farm for gil right now?** v1 (El
 - Price Craft at NQ when your stats can't reach max quality, using Raphael.Net or Craftimizer's solver rather than our own.
 - Back up and restore the data folder, for moving to a new PC.
 - Ctrl+K to jump to any item's Market page.
-- An accessibility pass with Narrator and keyboard only.
 - A winget package.
 - Import job levels from the Lodestone (needs a decision: it adds a network source and scrapes pages that can change).
 - A Linux build for Steam Deck and XLCore players (needs a decision: toasts, tray and installs are Windows-only today).
