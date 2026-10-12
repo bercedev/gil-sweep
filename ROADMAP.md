@@ -28,6 +28,7 @@ Gil Sweep answers one question: **what should I farm for gil right now?** v1 (El
 - **2026-10-08** — Reuse before building: the wider catalog's nodes and spawn windows come from Teamcraft's open data (MIT); any crafting solver comes from Raphael.Net or Craftimizer's solver (both MIT). The Universalis client stays our own: the official `Universalis.Client` targets .NET 8 with Newtonsoft.Json and would replace tested, source-generated code for nothing.
 - **2026-10-11** — The next release, v2.0.1, is accessibility and UI polish only: keyboard, Narrator, contrast and fidelity to the approved mockup. No new features; Gear stats follows it.
 - **2026-10-11** — Craft separates solo recipes from Free Company workshop projects. Not everyone is in an FC with a workshop, so a workshop project only counts when Settings says you have access; otherwise it shows locked.
+- **2026-10-11** — Releases are signed with Azure Trusted Signing, the owner's existing account, instead of SignPath Foundation.
 
 ## v2.0 — Native rewrite
 
@@ -74,7 +75,7 @@ Gil Sweep answers one question: **what should I farm for gil right now?** v1 (El
   Done when: the screenshots include a Perception lock and a Craftsmanship lock.
 - [ ] **Copy diagnostics** — a Settings button copies the version, Windows version, recent errors and the log folder for a bug report. Nothing is sent anywhere.
   Done when: the copied text names the data folder as `%AppData%\GilSweep` and contains no username or other private path.
-- [ ] **Code signing** — the release workflow signs `GilSweep.exe` and Setup through SignPath Foundation (free for open source).
+- [ ] **Code signing** — the release workflow signs `GilSweep.exe` and Setup with Azure Trusted Signing.
   Done when: both files carry a valid signature and SmartScreen no longer shows "Unknown publisher".
 - [ ] **Release** — tag `v2.1.0` and publish.
   Done when: v2.0.1 installed from Setup updates itself to v2.1.0.
