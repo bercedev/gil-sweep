@@ -25,4 +25,23 @@ public sealed class FormattingTests
     [InlineData(1_234.4, "1,234")]
     public void Rate_picks_the_decimals_after_rounding(double perDay, string shown) =>
         Assert.Equal(shown, Formatting.Rate(perDay));
+
+    [Theory]
+    [InlineData(0.04, "0%")]
+    [InlineData(-0.04, "0%")]
+    [InlineData(0, "0%")]
+    [InlineData(9.96, "+10%")]
+    [InlineData(10, "+10%")]
+    [InlineData(-12.3, "−12%")]
+    [InlineData(0.5, "+0.5%")]
+    [InlineData(-0.06, "−0.1%")]
+    [InlineData(double.NaN, "NaN%")]
+    public void SignedPercent_takes_the_sign_from_the_rounded_value(double percent, string shown) =>
+        Assert.Equal(shown, Formatting.SignedPercent(percent));
+
+    // Callers round to one decimal first, so a small fall arrives as negative zero (xUnit treats it as a
+    // duplicate of 0 in InlineData).
+    [Fact]
+    public void SignedPercent_shows_negative_zero_as_0_percent() =>
+        Assert.Equal("0%", Formatting.SignedPercent(Math.Round(-0.04, 1)));
 }

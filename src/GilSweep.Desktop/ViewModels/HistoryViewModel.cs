@@ -183,7 +183,7 @@ public sealed partial class HistoryViewModel : PageViewModel
             var before = week?.Find(entry.ItemId);
             var after = latest?.Find(entry.ItemId);
             double? pct = before is { Avg: > 0 } && after is not null && week != latest ? (double)(after.Avg - before.Avg) / before.Avg * 100 : null;
-            return new WatchChangeViewModel(after?.Name ?? $"Item {entry.ItemId}", pct is { } p ? Formatting.SignedPercent(Math.Round(p, 1)) : "—", Presentation.ChangeBrushKey(pct));
+            return new WatchChangeViewModel(after?.Name ?? $"Item {entry.ItemId}", pct is { } p ? Formatting.SignedPercent(p) : "—", Presentation.ChangeBrushKey(pct));
         })];
     }
 
