@@ -7,6 +7,9 @@ public sealed class FormattingTests
     [Theory]
     [InlineData(999_950, "1M")]
     [InlineData(999_995_000, "1B")]
+    [InlineData(999_940, "999.9K")]
+    [InlineData(999_994_999, "999.99M")]
+    [InlineData(-999_995_000, "-1B")]
     [InlineData(-999_999, "-1M")]
     [InlineData(9_999.5, "10K")]
     [InlineData(980, "980")]
@@ -23,6 +26,8 @@ public sealed class FormattingTests
     [InlineData(10, "10")]
     [InlineData(0.5, "0.5")]
     [InlineData(1_234.4, "1,234")]
+    [InlineData(-50, "-50")]
+    [InlineData(-9.94, "-9.9")]
     public void Rate_picks_the_decimals_after_rounding(double perDay, string shown) =>
         Assert.Equal(shown, Formatting.Rate(perDay));
 
