@@ -42,8 +42,15 @@ public static class Formatting
     // A formatted figure read back, so a value just under a band edge counts as the edge it rounds to.
     private static double Shown(string formatted) => Math.Abs(double.Parse(formatted, NumberStyles.Number, Invariant));
 
-    public static string SignedPercent(double percent) =>
-        (percent > 0 ? "+" : percent < 0 ? "−" : "") + Math.Abs(percent).ToString(Math.Abs(percent) >= 10 ? "0" : "0.#", Invariant) + "%";
+    public static string SignedPercent(double percent)
+    {
+        // The sign follows the number shown, so a change that rounds to 0% reads as no change.
+        // Both formats print zero as exactly "0"; a format that shows "0.0" needs this check changed too.
+        var magnitude = Math.Abs(percent);
+        var shown = magnitude.ToString(magnitude >= 10 ? "0" : "0.#", Invariant);
+        var sign = shown == "0" ? "" : percent > 0 ? "+" : percent < 0 ? "−" : "";
+        return sign + shown + "%";
+    }
 
     /// <summary>A countdown: "7m 32s" under an hour, "1h 05m" from an hour.</summary>
     public static string Countdown(TimeSpan time)
