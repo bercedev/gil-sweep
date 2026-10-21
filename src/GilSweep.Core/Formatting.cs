@@ -23,8 +23,13 @@ public static class Formatting
         _ => value.ToString("N0", Invariant),
     };
 
-    public static string SignedPercent(double percent) =>
-        (percent > 0 ? "+" : percent < 0 ? "−" : "") + Math.Abs(percent).ToString(Math.Abs(percent) >= 10 ? "0" : "0.#", Invariant) + "%";
+    public static string SignedPercent(double percent)
+    {
+        var shown = Math.Abs(percent).ToString(Math.Abs(percent) >= 10 ? "0" : "0.#", Invariant);
+        // The sign follows the number shown, so a change too small to show reads as no change.
+        var sign = double.Parse(shown, Invariant) == 0 ? "" : percent > 0 ? "+" : "−";
+        return sign + shown + "%";
+    }
 
     /// <summary>A countdown: "7m 32s" under an hour, "1h 05m" from an hour.</summary>
     public static string Countdown(TimeSpan time)
